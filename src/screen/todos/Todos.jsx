@@ -10,7 +10,8 @@ function Todos() {
 
     const [text, setText] = useState('');
     const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || []);
-    const [isChecked, setIsChecked] = useState(false);
+    const [editingTaskId, setEditingTaskId] = useState(null);
+    const [editFieldText, setEditFieldText] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
 
     const success = (content) => {
@@ -89,6 +90,33 @@ function Todos() {
         }
     }
 
+    const editTodo = (id) => {
+        setEditingTaskId(id);
+        let index = tasks.findIndex(task => task.id === id);
+        if (index !== -1) {
+            setEditFieldText(tasks[index].task);
+        } else {
+            error('Task not found!');
+        }
+    }
+
+    const handleEditedTextChange = (e) => {
+        setEditFieldText(e.target.value);
+    }
+
+    const updateTodo = (id) => {
+        let updatedItem = tasks.map((task) => {
+            if (task.id === id) {
+                return { ...task, task: editFieldText };
+            }
+            return task;
+        });
+
+        setTasks(updatedItem);
+        localStorage.setItem("tasks", JSON.stringify(updatedItem));
+        setEditingTaskId(null);
+    }
+
     return (
         <div>
             {contextHolder}
@@ -97,6 +125,7 @@ function Todos() {
                 <InputField
                     text={text}
                     onChangeText={handleChange}
+                    size={'large'}
                 />
                 <Button onClick={addTodo}>
                     ADD
@@ -109,9 +138,13 @@ function Todos() {
                         :
                         <TodoList
                             tasks={tasks}
-                            isChecked={isChecked}
                             hanleChecked={hanleChecked}
                             handleDelete={deleteTodo}
+                            handleEdit={editTodo}
+                            handleUpdate={updateTodo}
+                            editingTaskId={editingTaskId}
+                            editedText={editFieldText}
+                            handleEditedTextChange={handleEditedTextChange}
                         />
                 }
             </div>
