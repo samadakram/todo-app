@@ -1,0 +1,10 @@
+.headContainer {
+    width: 620px;
+    margin: auto;
+    display: flex;
+}
+
+.listContainer {
+    width: 500px;
+    margin: 20px auto;
+}
