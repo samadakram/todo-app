@@ -1,12 +1,11 @@
-import { forwardRef } from 'react';
 import { Input } from 'antd';
 
-const InputField = ({ text, onChangeText }) => (
+const InputField = ({ text, onChangeText, size }) => (
     <>
         <Input
             value={text}
             onChange={onChangeText}
-            size='large'
+            size={size}
             placeholder='Add Item...'
         />
     </>
