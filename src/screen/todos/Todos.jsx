@@ -117,6 +117,13 @@ function Todos() {
         setEditingTaskId(null);
     }
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addTodo();
+        }
+    }
+
     return (
         <div>
             {contextHolder}
@@ -126,10 +133,8 @@ function Todos() {
                     text={text}
                     onChangeText={handleChange}
                     size={'large'}
+                    handleKeyPress={handleKeyPress}
                 />
-                <Button onClick={addTodo}>
-                    ADD
-                </Button>
             </div>
             <div className="listContainer">
                 {
